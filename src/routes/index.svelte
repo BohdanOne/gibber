@@ -1,7 +1,6 @@
 <svelte:head>
 	<title>Gibber</title>
 </svelte:head>
-
 <svelte:window on:unload={emitUserDisconnect}/>
 
 <script>
@@ -11,8 +10,7 @@
 
 	let messages = ['welcome to our chat'];
 	let message = '';
-	let name;
-
+	let name= 'anonymous';
 	let usersOnline = 0;
 
 	socket.on('message', msg => {
@@ -36,9 +34,13 @@
 
 	function handleSubmit() {
 		messages = [...messages, message];
-		socket.emit('message', message);
+		socket.emit('message', `${name} says: ${message}`);
 		updateView();
 		message = '';
+	};
+
+	function saveName(e) {
+		name = e.target.elements[0].value;
 	};
 
 	function updateView() {
@@ -49,20 +51,13 @@
 	}
 </script>
 
-<header>
-	<h1>Lets talk!</h1>
-	<h2>Gibber - minimal chat app</h2>
-</header>
-<main>
+	<p>Users online: {usersOnline}</p>
 
-	<h4>Users online: {usersOnline}</h4>
-
-	<form>
+	<form on:submit|preventDefault={saveName}>
 		<label>Enter your name:
-			<input id="nameInput" autocomplete="off" bind:value={ name } />
+			<input id="nameInput" autocomplete="off" value={ name } />
 		</label>
-
-			<!-- <button on:click|preventDefault={handleSubmit}>Send</button> -->
+		<button>Save name</button>
 	</form>
 
 	<ul id="chat">
@@ -74,20 +69,8 @@
 		<input id="msgInput" autocomplete="off" bind:value={ message } />
 			<button on:click|preventDefault={handleSubmit}>Send</button>
 	</form>
-</main>
 
 <style>
-	h1 {
-		text-align: center;
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-	}
-
-	h2 {
-		text-align: center;
-		font-size: 1.5em;
-	}
 
 	#chat {
 		position: relative;
@@ -98,11 +81,5 @@
 
 	li {
 		list-style: none;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
 	}
 </style>
