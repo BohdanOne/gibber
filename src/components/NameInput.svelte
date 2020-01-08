@@ -7,7 +7,10 @@ function saveName(e) {
 };
 
 </script>
-<form id="nameInputForm" on:submit|preventDefault={saveName} transition:fly={{ x: 1000, duration: 1000}}>
+<form
+  on:submit|preventDefault={saveName}
+  transition:fly={{ x: 1000, duration: 1000}}
+>
   <label>First tell us what's your name?
     <input autocomplete="off" />
   </label>

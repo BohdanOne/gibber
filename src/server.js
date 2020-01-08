@@ -9,7 +9,6 @@ const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
 // server
-
 const server = http.createServer();
 
 polka({ server })
@@ -23,13 +22,17 @@ polka({ server })
 	});
 
 // chatroom
-
 let usersCount = 0;
 
 io(server).on('connection', socket => {
 	++usersCount;
 	socket.emit('user connected', usersCount);
 	socket.broadcast.emit('user connected', usersCount);
+
+	socket.on('user connected', user => {
+		const msg = `👋 ${user} has joined the chat!`;
+		socket.broadcast.emit('message', msg);
+	});
 
 	socket.on('message', msg => socket.broadcast.emit('message', msg));
 
