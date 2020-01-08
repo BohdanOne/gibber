@@ -6,11 +6,17 @@
 <script>
 	import { fade, fly } from 'svelte/transition';
 	import io from 'socket.io-client';
+	import NameInput from '../components/NameInput.svelte';
+
+	import { name } from '../components/stores.js';
+
+	let userName;
+	const unsubscribe = name.subscribe( v => userName = v);
+
 	const socket = io();
 
 	let messages = ['welcome to our chat'];
 	let message = '';
-	let name = '';
 	let usersOnline = 0;
 
 	socket.on('message', msg => {
@@ -34,13 +40,9 @@
 
 	function handleSubmit() {
 		messages = [...messages, message];
-		socket.emit('message', `${name} says: ${message}`);
+		socket.emit('message', `${userName} says: ${message}`);
 		updateView();
 		message = '';
-	};
-
-	function saveName(e) {
-		name = e.target.elements[0].value;
 	};
 
 	function updateView() {
@@ -52,13 +54,8 @@
 </script>
 
 	<p>Users online: {usersOnline}</p>
-	{#if (!name)}
-		<form id="nameInputForm" on:submit|preventDefault={saveName} transition:fly={{ x: 1000, duration: 1000}}>
-			<label>First tell us what's your name?
-				<input autocomplete="off" value={ name } />
-			</label>
-			<button>Let's start</button>
-		</form>
+	{#if (!userName)}
+		<NameInput />
 		{:else}
 			<div id="chat" in:fly={{ x: -1000, delay: 1000}}>
 				<ul id="messagesWindow" >
