@@ -8,7 +8,7 @@
 	main {
 		position: relative;
 		max-width: 56em;
-		background-color: #e5e4cc;
+		background-color: var(--main-col);
 		padding: 2em;
 		margin: 0 auto;
 		box-sizing: border-box;

@@ -91,7 +91,7 @@
 
 	#chat {
 		position: relative;
-		background: #889e81;
+		background: var(--secondary-light-col);
 		overflow: auto;
 		height: 200px;
 	}

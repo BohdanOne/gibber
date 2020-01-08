@@ -20,7 +20,6 @@ polka({ server })
 	)
 	.listen(PORT, err => {
 		if (err) console.log('error', err);
-		console.log(`gibber server listening at PORT ${PORT}...`)
 	});
 
 // chatroom

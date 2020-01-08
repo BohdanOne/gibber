@@ -1,3 +1,10 @@
+:root {
+	--main-col: #e5e4cc;
+	--secondary-col: #698474;
+	--secondary-light-col: #889e81;
+	--ternary-col: #85679e;
+}
+
 body {
 	margin: 0;
 	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;

@@ -5,7 +5,7 @@
 <style>
 	nav {
 		box-sizing: border-box;
-		background: #698474;
+		background: var(--secondary-col);
 		font-weight: 300;
 		padding: 0 1em;
 		max-width: 56em;
@@ -39,19 +39,19 @@
 		content: '';
 		width: calc(100% - 1em);
 		height: 3px;
-		background-color: #85679E;
+		background-color: var(--ternary-col);
 		display: block;
 		bottom: 0px;
 	}
 
 	a {
-		color: #e5e4cc;
+		color: var(--main-col);
 		text-decoration: none;
 		padding: 1em 0.5em;
 		display: block;
 	}
 	a:hover {
-		color: #85679E;
+		color: var(--ternary-col);
 	}
 </style>
 
