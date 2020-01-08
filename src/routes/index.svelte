@@ -4,13 +4,13 @@
 <svelte:window on:unload={emitUserDisconnect}/>
 
 <script>
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import io from 'socket.io-client';
 	const socket = io();
 
 	let messages = ['welcome to our chat'];
 	let message = '';
-	let name= 'anonymous';
+	let name = '';
 	let usersOnline = 0;
 
 	socket.on('message', msg => {
@@ -44,35 +44,39 @@
 	};
 
 	function updateView() {
-		const chat = document.getElementById('chat');
-		setTimeout(() => {
-			chat.scrollTop = chat.scrollHeight;
-		}, 0)
+		// const messagesWindow = document.getElementById('messagesWindow');
+		// setTimeout(() => {
+		// 	messagesWindow.scrollTop = messagesWindow.scrollHeight;
+		// }, 0)
 	}
 </script>
 
 	<p>Users online: {usersOnline}</p>
-
-	<form on:submit|preventDefault={saveName}>
-		<label>Enter your name:
-			<input id="nameInput" autocomplete="off" value={ name } />
-		</label>
-		<button>Save name</button>
-	</form>
-
-	<ul id="chat">
-		{ #each messages as message }
-			<li transition:fade>{ message }</li>
-		{ /each }
-	</ul>
-	<form>
-		<input id="msgInput" autocomplete="off" bind:value={ message } />
-			<button on:click|preventDefault={handleSubmit}>Send</button>
-	</form>
+	{#if (!name)}
+		<form id="nameInputForm" on:submit|preventDefault={saveName} transition:fly={{ x: 1000, duration: 1000}}>
+			<label>First tell us what's your name?
+				<input autocomplete="off" value={ name } />
+			</label>
+			<button>Let's start</button>
+		</form>
+		{:else}
+			<div id="chat" in:fly={{ x: -1000, delay: 1000}}>
+				<ul id="messagesWindow" >
+					{ #each messages as message }
+						<li transition:fade>{ message }</li>
+					{ /each }
+				</ul>
+				<form>
+					<input autocomplete="off" bind:value={ message } />
+						<button on:click|preventDefault={handleSubmit}>Send</button>
+				</form>
+			</div>
+	{/if}
 
 <style>
 
 	#chat {
+		/* display: none; */
 		position: relative;
 		background: var(--secondary-light-col);
 		overflow: auto;
