@@ -30,6 +30,10 @@
 		socket.emit('user disconnected');
 	};
 
+	function notifyAboutInput() {
+		socket.emit('message', `${userName} is writing...`);
+	}
+
   function handleSubmit() {
 		messages = [...messages, message];
 		socket.emit('message', `${userName} says: ${message}`);
@@ -57,7 +61,7 @@
     { /each }
   </ul>
   <form>
-    <input autocomplete="off" bind:value={ message } />
+    <input autocomplete="off" bind:value={ message } on:keyup|once={ notifyAboutInput }/>
       <button on:click|preventDefault={handleSubmit}>Send</button>
   </form>
 </div>
