@@ -16,3 +16,25 @@ function saveName(e) {
   </label>
   <button>Let's start</button>
 </form>
+
+<style>
+  input {
+    width: 300px;
+    padding: 5px;
+    border: none;
+    color: inherit;
+    font: inherit;
+    background: var(--secondary-light-col);
+  }
+	button {
+    border: 2px solid;
+    padding: 5px;
+  	color: var(--secondary-col);
+    font: inherit;
+    background: var(--main-col);
+  }
+  button:hover{
+    cursor: pointer;
+    color: var(--ternary-col);
+  }
+</style>

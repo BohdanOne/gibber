@@ -88,4 +88,22 @@
 		bottom: 0;
 		width: 100%;
 	}
+	input {
+		width: 90%;
+		padding: 5px;
+		border: none;
+		color: inherit;
+		font: inherit;
+	}
+	button {
+		border: none;
+  	color: var(--main-col);
+    padding: 5px;
+		font: inherit;
+		background: var(--secondary-light-col);
+  }
+  button:hover{
+    cursor: pointer;
+    color: var(--ternary-col);
+  }
 </style>
