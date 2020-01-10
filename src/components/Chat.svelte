@@ -20,9 +20,9 @@
 		usersOnline = [...usersOnline, user];
 	})
 
-	// socket.on('user disconnected', usersCount => {
-	// 	usersOnline = usersCount;
-	// });
+	socket.on('user left', users => {
+		usersOnline = [...users];
+	});
 
 	socket.on('message', msg => {
 		messages = [...messages, msg];
@@ -30,7 +30,7 @@
 	});
 
 	function emitUserDisconnect() {
-		socket.emit('user disconnected');
+		socket.emit('user disconnected', userName);
 	};
 
 	function notifyAboutInput() {

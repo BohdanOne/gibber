@@ -22,7 +22,6 @@ polka({ server })
 	});
 
 // ============== CHATROOM =====================
-let usersCount = 0;
 let usersOnline = [];
 
 io(server).on('connection', socket => {
@@ -33,10 +32,11 @@ io(server).on('connection', socket => {
 		socket.broadcast.emit('new user', user);
 	});
 
+	socket.on('user disconnected', user => {
+		usersOnline = [...usersOnline.filter(u => u != user)];
+		socket.broadcast.emit('user left', usersOnline);
+	})
+
 	socket.on('message', msg => socket.broadcast.emit('message', msg));
 
-  socket.on('disconnect', () => {
-    --usersCount;
-		socket.broadcast.emit('user disconnected', usersCount);
-  });
 });
