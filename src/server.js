@@ -30,7 +30,7 @@ io(server).on('connection', socket => {
 
 	socket.on('user connected', user => {
 		usersOnline = [...usersOnline, user];
-		socket.emit('usersOnline', usersOnline);
+		socket.broadcast.emit('new user', user);
 	});
 
 	socket.on('message', msg => socket.broadcast.emit('message', msg));

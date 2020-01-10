@@ -12,12 +12,12 @@
 
 	const socket = io();
 	socket.on('user connected', users => {
-		usersOnline = [...users];
+		usersOnline = [userName, ...users];
 		socket.emit('user connected', userName);
 	});
 
-	socket.on('usersOnline', users => {
-		usersOnline = [...users];
+	socket.on('new user', user => {
+		usersOnline = [...usersOnline, user];
 	})
 
 	// socket.on('user disconnected', usersCount => {
