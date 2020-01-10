@@ -2,32 +2,35 @@
 
 <script>
   import io from 'socket.io-client';
-  import { fly, fade } from 'svelte/transition';
-  export let userName;
+	import { fly, fade } from 'svelte/transition';
+	import UsersOnline from './UsersOnline.svelte';
 
-  let messages = [`Welcome ${userName}!`];
+  export let userName;
+  let messages = [];
 	let message = '';
-	let usersOnline = 0;
+	let usersOnline = [];
 
 	const socket = io();
+	socket.on('user connected', users => {
+		usersOnline = [userName, ...users];
+		socket.emit('user connected', userName);
+	});
+
+	socket.on('new user', user => {
+		usersOnline = [...usersOnline, user];
+	})
+
+	socket.on('user left', users => {
+		usersOnline = [...users];
+	});
+
 	socket.on('message', msg => {
 		messages = [...messages, msg];
 		updateView();
 	});
 
-	socket.on('user connected', usersCount => {
-    usersOnline = usersCount;
-    socket.emit('user connected', userName);
-		updateView();
-	});
-
-	socket.on('user disconnected', usersCount => {
-		usersOnline = usersCount;
-		updateView();
-	});
-
 	function emitUserDisconnect() {
-		socket.emit('user disconnected');
+		socket.emit('user disconnected', userName);
 	};
 
 	function notifyAboutInput() {
@@ -50,10 +53,6 @@
 
 </script>
 
-<p>
-  <span>Users online: </span>
-  {usersOnline}
-</p>
 <div id="chat" in:fly={{ x: -1000, delay: 1000}}>
   <ul id="messagesWindow" >
     { #each messages as message }
@@ -65,12 +64,9 @@
       <button on:click|preventDefault={handleSubmit}>Send</button>
   </form>
 </div>
+<UsersOnline {usersOnline} />
 
 <style>
-  span {
-    font-style: italic;
-  }
-
 	#chat {
 		position: relative;
 		background: var(--secondary-light-col);

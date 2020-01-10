@@ -21,23 +21,22 @@ polka({ server })
 		if (err) console.log('error', err);
 	});
 
-// chatroom
-let usersCount = 0;
+// ============== CHATROOM =====================
+let usersOnline = [];
 
 io(server).on('connection', socket => {
-	++usersCount;
-	socket.emit('user connected', usersCount);
-	socket.broadcast.emit('user connected', usersCount);
+	socket.emit('user connected', usersOnline);
 
 	socket.on('user connected', user => {
-		const msg = `👋 ${user} has joined the chat!`;
-		socket.broadcast.emit('message', msg);
+		usersOnline = [...usersOnline, user];
+		socket.broadcast.emit('new user', user);
 	});
+
+	socket.on('user disconnected', user => {
+		usersOnline = [...usersOnline.filter(u => u != user)];
+		socket.broadcast.emit('user left', usersOnline);
+	})
 
 	socket.on('message', msg => socket.broadcast.emit('message', msg));
 
-  socket.on('disconnect', () => {
-    --usersCount;
-		socket.broadcast.emit('user disconnected', usersCount);
-  });
 });

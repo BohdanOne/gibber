@@ -3,7 +3,7 @@ import { fly } from 'svelte/transition';
 import { name } from './stores.js';
 
 function saveName(e) {
-	name.set(e.target.elements[0].value);
+  name.set(e.target.elements[0].value);
 };
 
 </script>

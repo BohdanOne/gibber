@@ -9,11 +9,12 @@
 	import { name } from '../components/stores.js';
 
 	let userName;
-	const unsubscribe = name.subscribe( v => userName = v);
+	name.subscribe( v => userName = v);
+
 </script>
 
 {#if (!userName)}
 	<NameInput />
 	{:else}
-	<Chat {userName}/>
+	<Chat {userName} />
 {/if}
