@@ -6,9 +6,25 @@
 	import UsersOnline from './UsersOnline.svelte';
 
   export let userName;
-  let messages = [];
+	let messages = [];
 	let message = '';
 	let usersOnline = [];
+
+	let notifications = [];
+	$: {
+		if (notifications.length > 0) {
+			setTimeout(() => notifications = notifications.slice(1), 3000);
+		}
+	}
+
+	let userIsWriting = false;
+	$: {
+		if (userIsWriting) {
+			const msg = `${userName} is writing...`;
+			socket.emit('user typing', msg);
+			setTimeout(()=> userIsWriting = false, 3000);
+		}
+	}
 
 	const socket = io();
 	socket.on('user connected', users => {
@@ -25,17 +41,19 @@
 	});
 
 	socket.on('message', msg => {
+		userIsWriting = false;
 		messages = [...messages, msg];
+		updateView();
+	});
+
+	socket.on('user typing', msg => {
+		notifications = [...notifications, msg];
 		updateView();
 	});
 
 	function emitUserDisconnect() {
 		socket.emit('user disconnected', userName);
 	};
-
-	function notifyAboutInput() {
-		socket.emit('message', `${userName} is writing...`);
-	}
 
   function handleSubmit() {
 		messages = [...messages, message];
@@ -55,12 +73,15 @@
 
 <div id="chat" in:fly={{ x: -1000, delay: 1000}}>
   <ul id="messagesWindow" >
+		{#each notifications as notification}
+      <li transition:fade>{ notification }</li>
+		{/each}
     { #each messages as message }
       <li transition:fade>{ message }</li>
     { /each }
   </ul>
   <form>
-    <input autocomplete="off" bind:value={ message } on:keyup|once={ notifyAboutInput }/>
+    <input autocomplete="off" bind:value={ message } on:keyup={ () => userIsWriting = true }/>
       <button on:click|preventDefault={handleSubmit}>Send</button>
   </form>
 </div>
