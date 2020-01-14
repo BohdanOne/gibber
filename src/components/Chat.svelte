@@ -81,7 +81,7 @@
     { /each }
   </ul>
   <form>
-    <input autocomplete="off" bind:value={ message } on:keyup={ () => userIsWriting = true }/>
+    <input autocomplete="off" bind:value={ message } on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}/>
       <button on:click|preventDefault={handleSubmit}>Send</button>
   </form>
 </div>
