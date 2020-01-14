@@ -56,10 +56,12 @@
 	};
 
   function handleSubmit() {
-		messages = [...messages, message];
-		socket.emit('message', `${userName} says: ${message}`);
-		updateView();
-		message = '';
+		if (message) {
+			messages = [...messages, message];
+			socket.emit('message', `${userName} says: ${message}`);
+			updateView();
+			message = '';
+		}
 	};
 
 	function updateView() {
@@ -73,12 +75,12 @@
 
 <div id="chat" in:fly={{ x: -1000, delay: 1000}}>
   <ul id="messagesWindow" >
-		{#each notifications as notification}
-      <li transition:fade>{ notification }</li>
-		{/each}
     { #each messages as message }
       <li transition:fade>{ message }</li>
     { /each }
+		{#each notifications as notification}
+      <li transition:fade>{ notification }</li>
+		{/each}
   </ul>
   <form>
     <input autocomplete="off" bind:value={ message } on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}/>
