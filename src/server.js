@@ -39,4 +39,6 @@ io(server).on('connection', socket => {
 
 	socket.on('message', msg => socket.broadcast.emit('message', msg));
 
+	socket.on('user typing', msg => socket.broadcast.emit('user typing', msg));
+
 });
