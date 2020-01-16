@@ -34,13 +34,16 @@
 
 	socket.on('new user', user => {
 		usersOnline = [...usersOnline, user];
-		const msg = `${user} has joined the chat`;
+		const msg = `${user} has joined conversation`;
 		notifications = [...notifications, msg];
 		updateView();
 	})
 
-	socket.on('user left', users => {
+	socket.on('user left', (users, user) => {
 		usersOnline = [...users];
+		const msg = `${user} has left conversation`;
+		notifications = [...notifications, msg];
+		updateView();
 	});
 
 	socket.on('message', msg => {
