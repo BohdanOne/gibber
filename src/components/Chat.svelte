@@ -34,6 +34,9 @@
 
 	socket.on('new user', user => {
 		usersOnline = [...usersOnline, user];
+		const msg = `${user} has joined the chat`;
+		notifications = [...notifications, msg];
+		updateView();
 	})
 
 	socket.on('user left', users => {
@@ -73,27 +76,34 @@
 
 </script>
 
-<div id="chat" in:fly={{ x: -1000, delay: 1000}}>
-  <ul id="messagesWindow" >
-    { #each messages as message }
-      <li transition:fade>{ message }</li>
-    { /each }
-		{#each notifications as notification}
-      <li transition:fade>{ notification }</li>
-		{/each}
-  </ul>
-  <form>
-    <input autocomplete="off" bind:value={ message } on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}/>
-      <button on:click|preventDefault={handleSubmit}>Send</button>
-  </form>
+<div class="chat-wrapper"in:fly={{ x: -1000, delay: 1000}}>
+	<div class="chat">
+		<ul id="messagesWindow" >
+			{ #each messages as message }
+				<li transition:fade>{ message }</li>
+			{ /each }
+			{#each notifications as notification}
+				<li transition:fade>{ notification }</li>
+			{/each}
+		</ul>
+		<form>
+			<input autocomplete="off" bind:value={ message } on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}/>
+				<button on:click|preventDefault={handleSubmit}>Send</button>
+		</form>
+	</div>
+	<UsersOnline {usersOnline} />
 </div>
-<UsersOnline {usersOnline} />
 
 <style>
-	#chat {
+	.chat-wrapper {
+		display: flex;
+	}
+
+	.chat {
 		position: relative;
 		background: var(--secondary-light-col);
 		height: 200px;
+		width: 80%;
   }
 
   ul {
