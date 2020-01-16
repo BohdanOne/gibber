@@ -34,7 +34,7 @@ io(server).on('connection', socket => {
 
 	socket.on('user disconnected', user => {
 		usersOnline = [...usersOnline.filter(u => u != user)];
-		socket.broadcast.emit('user left', usersOnline);
+		socket.broadcast.emit('user left', usersOnline, user);
 	})
 
 	socket.on('message', msg => socket.broadcast.emit('message', msg));
