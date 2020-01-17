@@ -4,25 +4,24 @@
 </script>
 
 <header>
+  <h1>! gibber</h1>
   <Nav { segment }/>
-	<h1>Lets talk!</h1>
-	<h2>Gibber - minimal chat app</h2>
 </header>
 
 <style>
-
-  h1,
-  h2 {
-    font-weight: 400;
-    margin: 0;
-		text-align: center;
+  header {
+    height: 50px;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    background: var(--secondary-col);
   }
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-	}
 
-	h2 {
-    font-size: 1.2em;
-	}
+  h1 {
+    color: var(--white-col);
+    line-height: 1;
+  }
 </style>

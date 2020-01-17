@@ -1,8 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Gochi+Hand|Roboto&display=swap');
+
 :root {
-	--main-col: #e5e4cc;
-	--secondary-col: #698474;
-	--secondary-light-col: #889e81;
-	--ternary-col: #85679e;
+	--main-col: #1E2759;
+	--secondary-col: #4A808C;
+	--secondary-light-col: #729CA6;
+	--ternary-col: #A69B03;
+	--white-col: #eaeaea;
+	--shadow: 4px 4px 8px rgba(255, 255, 255, 0.25);
 }
 
 * {
@@ -11,20 +15,14 @@
 	box-sizing: border-box;
 }
 
+html {
+	font-size: 16px;
+	background: var(--secondary-light-col);
+}
+
 body {
-	margin: 0;
-	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	font-size: 14px;
-	line-height: 1.5;
-	color: #333;
-}
-
-p {
-	margin: 0.5em 0;
-}
-
-@media (min-width: 400px) {
-	body {
-		font-size: 16px;
-	}
+	font-family: 'Gochi Hand', cursive;
+	color: var(--main-col);
+	max-width: 600px;
+	margin: 0 auto;
 }

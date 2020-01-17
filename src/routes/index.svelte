@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Gibber</title>
+	<title>! gibber</title>
 </svelte:head>
 
 <script>
@@ -13,6 +13,7 @@
 
 </script>
 
+<h2>Gibber - minimal chat app</h2>
 {#if (!userName)}
 	<NameInput />
 	{:else}
