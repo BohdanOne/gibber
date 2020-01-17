@@ -74,9 +74,9 @@ function saveName(e) {
 
   a {
     text-decoration: none;
-    text-align: center;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   button:hover, a:hover {
