@@ -7,6 +7,7 @@
     display: block;
     text-align: center;
     color: var(--white-col);
+    margin-bottom: 20px;
   }
 
   a:hover {

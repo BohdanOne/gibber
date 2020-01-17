@@ -1,39 +1,85 @@
 <script>
-import { fly } from 'svelte/transition';
+import { fly, fade } from 'svelte/transition';
 import { name } from './stores.js';
+
+let userName;
+name.subscribe( v => userName = v);
 
 function saveName(e) {
   name.set(e.target.elements[0].value);
 };
-
 </script>
-<form
-  on:submit|preventDefault={saveName}
-  transition:fly={{ x: 1000, duration: 1000}}
->
-  <label>First tell us what's your name?
-    <input autocomplete="off" />
-  </label>
-  <button>Let's start</button>
-</form>
+
+<section>
+  {#if !userName}
+    <form
+      on:submit|preventDefault={saveName}
+      transition:fade={{ duration: 500}}
+    >
+      <input autocomplete="off" placeholder="enter your name here..." />
+      <button>save name</button>
+    </form>
+  {:else}
+    <div transition:fade={{ duration: 500, delay: 600 }}>
+      <p>Hi {userName}!</p>
+      <a href='chat'>let's chat!</a>
+    </div>
+{/if}
+</section>
 
 <style>
+  p, input {
+    display: block;
+    margin: 20px auto;
+    height: 40px;
+    font: inherit;
+    color: var(--white-col);
+    text-align: center;
+  }
+
+  p {
+    font-size: 2rem;
+  }
+
   input {
-    width: 300px;
-    padding: 5px;
+    background: var(--ternary-col);
+    box-shadow: var(--shadow);
+    width: 333px;
+    border-radius: 10px;
     border: none;
-    color: inherit;
-    font: inherit;
-    background: var(--secondary-light-col);
+    font-size: 1.5rem;
   }
-	button {
-    border: 2px solid;
-    padding: 5px;
-  	color: var(--secondary-col);
+
+  input::placeholder {
     font: inherit;
-    background: var(--main-col);
+    font-size: 1.5rem;
+    color: var(--white-col);
   }
-  button:hover{
+
+	button, a {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 1.5rem;
+    color: var(--secondary-light-col);
+    background:var(--main-col);
+    box-shadow: var(--shadow);
+    width: 160px;
+    height: 40px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  a {
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }
+
+  button:hover, a:hover {
     cursor: pointer;
     color: var(--ternary-col);
   }

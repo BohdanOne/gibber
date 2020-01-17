@@ -26,3 +26,10 @@ body {
 	max-width: 600px;
 	margin: 0 auto;
 }
+
+#sapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+}
