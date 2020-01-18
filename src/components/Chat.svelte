@@ -114,7 +114,7 @@
 		<UsersOnline {usersOnline} />
 	{:else}
 		<p>We don't chat with strangers!</p>
-		<p>Go here ↘️ and provide your name.</p>
+		<p>Go here <span role="img" aria-label="Down-Right Arrow">↘️</span> and provide your name.</p>
 		<a href='/'>here</a>
 	{/if}
 </div>
