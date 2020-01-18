@@ -2,4 +2,8 @@
 	<title>! gibber | chat</title>
 </svelte:head>
 
-<h2>Chat</h2>
+<script>
+	import Chat from '../components/Chat.svelte'
+</script>
+
+<Chat />

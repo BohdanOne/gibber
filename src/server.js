@@ -37,8 +37,8 @@ io(server).on('connection', socket => {
 		socket.broadcast.emit('user left', usersOnline, user);
 	})
 
-	socket.on('message', msg => socket.broadcast.emit('message', msg));
+	socket.on('message', (msg, user) => socket.broadcast.emit('message', msg, user));
 
-	socket.on('user typing', msg => socket.broadcast.emit('user typing', msg));
+	socket.on('user typing', user => socket.broadcast.emit('user typing', user));
 
 });

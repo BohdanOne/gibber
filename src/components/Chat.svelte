@@ -3,11 +3,16 @@
 <script>
   import io from 'socket.io-client';
 	import { fly, fade } from 'svelte/transition';
+	import { name } from './stores.js';
 	import UsersOnline from './UsersOnline.svelte';
 
-  export let userName;
+	let userName;
+	name.subscribe( v => userName = v);
+
 	let messages = [];
+
 	let message = '';
+
 	let usersOnline = [];
 
 	let notifications = [];
@@ -20,8 +25,7 @@
 	let userIsWriting = false;
 	$: {
 		if (userIsWriting) {
-			const msg = `${userName} is writing...`;
-			socket.emit('user typing', msg);
+			socket.emit('user typing', userName);
 			setTimeout(()=> userIsWriting = false, 3000);
 		}
 	}
@@ -34,25 +38,26 @@
 
 	socket.on('new user', user => {
 		usersOnline = [...usersOnline, user];
-		const msg = `${user} has joined conversation`;
+		const msg = `${user} has joined conversation 👋`;
 		notifications = [...notifications, msg];
 		updateView();
 	})
 
 	socket.on('user left', (users, user) => {
 		usersOnline = [...users];
-		const msg = `${user} has left conversation`;
+		const msg = `${user} has left conversation 🙋🏻‍♀️`;
 		notifications = [...notifications, msg];
 		updateView();
 	});
 
-	socket.on('message', msg => {
+	socket.on('message', (msg, user) => {
 		userIsWriting = false;
-		messages = [...messages, msg];
+		messages = [...messages, { message: msg, user: user}];
 		updateView();
 	});
 
-	socket.on('user typing', msg => {
+	socket.on('user typing', user => {
+		const msg = `${user} is typing ✍️`
 		notifications = [...notifications, msg];
 		updateView();
 	});
@@ -63,15 +68,15 @@
 
   function handleSubmit() {
 		if (message) {
-			messages = [...messages, message];
-			socket.emit('message', `${userName} says: ${message}`);
+			messages = [...messages, {message: message, user: userName}];
+			socket.emit('message', message, userName);
 			updateView();
 			message = '';
 		}
 	};
 
 	function updateView() {
-		const messagesWindow = document.getElementById('messagesWindow');
+		const messagesWindow = document.getElementById('chat');
 		setTimeout(() => {
 			messagesWindow.scrollTop = messagesWindow.scrollHeight;
 		}, 0)
@@ -79,67 +84,122 @@
 
 </script>
 
-<div class="chat-wrapper"in:fly={{ x: -1000, delay: 1000}}>
-	<div class="chat">
-		<ul id="messagesWindow" >
+<div>
+	{#if userName}
+		<ul id="chat">
 			{ #each messages as message }
-				<li transition:fade>{ message }</li>
+				<li transition:fade class="message">
+					{ #if message.user === userName }
+						{ message.message }
+						{ :else }
+							<span>{ message.user } says: </span>{ message.message }
+					{ /if }
+				</li>
 			{ /each }
 			{#each notifications as notification}
-				<li transition:fade>{ notification }</li>
+				<li transition:fade class="notification">{ notification }</li>
 			{/each}
 		</ul>
 		<form>
-			<input autocomplete="off" bind:value={ message } on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}/>
-				<button on:click|preventDefault={handleSubmit}>Send</button>
+			<input
+				autocomplete="off"
+				bind:value={ message }
+				on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}
+				placeholder="write here"
+			/>
+			<button
+				on:click|preventDefault={handleSubmit}
+			>Send!</button>
 		</form>
-	</div>
-	<UsersOnline {usersOnline} />
+		<UsersOnline {usersOnline} />
+	{:else}
+		<p>We don't chat with strangers!</p>
+		<p>Go here ↘️ and provide your name.</p>
+		<a href='/'>here</a>
+	{/if}
 </div>
 
 <style>
-	.chat-wrapper {
+	div {
 		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		height: 100%;
+		max-height: 500px;
 	}
 
-	.chat {
-		position: relative;
-		background: var(--secondary-light-col);
-		height: 200px;
-		width: 80%;
+	ul {
+		background: var(--white-col);
+		max-width: 333px;
+		min-height: 300px;
+		max-height: 60%;
+		border-radius: 10px;
+		overflow: scroll;
+		padding: 5px 10px;
+	}
+
+	input {
+    display: block;
+    margin: 10px auto;
+    height: 40px;
+    font: inherit;
+    color: var(--white-col);
+    text-align: center;
+    background: var(--ternary-col);
+    box-shadow: var(--shadow);
+    max-width: 333px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.5rem;
   }
 
-  ul {
-    overflow: scroll;
-    height: 80%;
+  input::placeholder {
+    font: inherit;
+    font-size: 1.5rem;
+    color: var(--white-col);
+	}
+
+	button, a {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 1.5rem;
+    color: var(--secondary-light-col);
+    background:var(--main-col);
+    box-shadow: var(--shadow);
+    width: 160px;
+    height: 40px;
+    margin: 0 auto;
+    display: block;
+  }
+
+	button:hover,
+	a:hover {
+    cursor: pointer;
+    color: var(--ternary-col);
+	}
+
+	a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 	li {
 		list-style: none;
+		font-size: 1rem;
 	}
 
-	form {
-		display: block;
-		position: absolute;
-		bottom: 0;
-		width: 100%;
+	.notification,
+	span {
+		color: var(--secondary-light-col);
 	}
-	input {
-		width: 90%;
-		padding: 5px;
-		border: none;
-		color: inherit;
-		font: inherit;
+
+	p {
+		font-size: 2rem;
+		text-align: center;
 	}
-	button {
-		border: none;
-  	color: var(--main-col);
-    padding: 5px;
-		font: inherit;
-		background: var(--secondary-light-col);
-  }
-  button:hover{
-    cursor: pointer;
-    color: var(--ternary-col);
-  }
 </style>
