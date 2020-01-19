@@ -8,4 +8,5 @@
 
 <TransitionWrapper>
 	<h2>Info</h2>
+	<a href='chat'>take me back to chat</a>
 </TransitionWrapper>

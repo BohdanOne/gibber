@@ -3,9 +3,9 @@ import { fade } from 'svelte/transition';
 import { name } from './stores.js';
 
 let userName;
-name.subscribe( v => userName = v);
 
 function saveName(e) {
+  name.subscribe( v => userName = v);
   name.set(e.target.elements[0].value);
 };
 </script>

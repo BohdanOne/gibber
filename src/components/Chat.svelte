@@ -1,21 +1,21 @@
-<svelte:window on:unload={emitUserDisconnect}/>
-
 <script>
-  import io from 'socket.io-client';
+	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { name } from './stores.js';
+	import { name, messages } from './stores.js';
 	import UsersOnline from './UsersOnline.svelte';
 
+	import io from 'socket.io-client';
+	const socket = io();
+
 	let userName;
-	name.subscribe( v => userName = v);
-
-	let messages = [];
-
-	let message = '';
-
 	let usersOnline = [];
-
+	let messageList = [];
+	let messageInput = '';
 	let notifications = [];
+
+	name.subscribe(v => userName = v);
+	messages.subscribe(v => messageList = v);
+
 	$: {
 		if (notifications.length > 0) {
 			setTimeout(() => notifications = notifications.slice(1), 3000);
@@ -30,64 +30,64 @@
 		}
 	}
 
-	const socket = io();
 	socket.on('user connected', users => {
 		usersOnline = [userName, ...users];
 		socket.emit('user connected', userName);
 	});
 
-	socket.on('new user', user => {
-		usersOnline = [...usersOnline, user];
+	socket.on('new user', (users, user) => {
+		usersOnline = [...users];
 		const msg = `${user} has joined conversation 👋`;
 		notifications = [...notifications, msg];
-		updateView();
 	})
 
 	socket.on('user left', (users, user) => {
 		usersOnline = [...users];
 		const msg = `${user} has left conversation 🙋🏻‍♀️`;
 		notifications = [...notifications, msg];
-		updateView();
 	});
 
 	socket.on('message', (msg, user) => {
 		userIsWriting = false;
-		messages = [...messages, { message: msg, user: user}];
+		messages.update(m => [...messageList, {message: msg, user: user}]);
 		updateView();
 	});
 
 	socket.on('user typing', user => {
 		const msg = `${user} is typing ✍️`
 		notifications = [...notifications, msg];
-		updateView();
 	});
 
-	function emitUserDisconnect() {
+	onDestroy(() => disconnectUser());
+
+	function disconnectUser()	{
 		socket.emit('user disconnected', userName);
+		socket.close();
 	};
 
   function handleSubmit() {
-		if (message) {
-			messages = [...messages, {message: message, user: userName}];
-			socket.emit('message', message, userName);
+		if (messageInput) {
+			messages.update(m => [...messageList, {message: messageInput, user: userName}]);
+			socket.emit('message', messageInput, userName);
 			updateView();
-			message = '';
+			messageInput = '';
 		}
 	};
 
 	function updateView() {
-		const messagesWindow = document.getElementById('chat');
+		const chatWindow = document.getElementById('chat');
 		setTimeout(() => {
-			messagesWindow.scrollTop = messagesWindow.scrollHeight;
+			chatWindow.scrollTop = chatWindow.scrollHeight;
 		}, 0)
   };
 
 </script>
 
+<svelte:window on:unload={disconnectUser}/>
 <div>
 	{#if userName}
 		<ul id="chat">
-			{ #each messages as message }
+			{ #each messageList as message }
 				<li transition:fade class="message">
 					{ #if message.user === userName }
 						{ message.message }
@@ -103,7 +103,7 @@
 		<form>
 			<input
 				autocomplete="off"
-				bind:value={ message }
+				bind:value={ messageInput }
 				on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}
 				placeholder="write here"
 			/>
