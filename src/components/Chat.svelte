@@ -2,7 +2,7 @@
 
 <script>
   import io from 'socket.io-client';
-	import { fly, fade } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { name } from './stores.js';
 	import UsersOnline from './UsersOnline.svelte';
 

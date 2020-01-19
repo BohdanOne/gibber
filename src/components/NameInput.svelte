@@ -1,5 +1,5 @@
 <script>
-import { fly, fade } from 'svelte/transition';
+import { fade } from 'svelte/transition';
 import { name } from './stores.js';
 
 let userName;
@@ -14,13 +14,16 @@ function saveName(e) {
   {#if !userName}
     <form
       on:submit|preventDefault={saveName}
-      transition:fade={{ duration: 500}}
+      out:fade={{duration: 300}}
     >
-      <input autocomplete="off" placeholder="enter your name here..." />
+      <input
+        autocomplete="off"
+        placeholder="enter your name here..."
+      />
       <button>save name</button>
     </form>
   {:else}
-    <div transition:fade={{ duration: 500, delay: 600 }}>
+    <div in:fade={{delay: 300}}>
       <p>Hi {userName}!</p>
       <a href='chat'>let's chat!</a>
     </div>
@@ -28,6 +31,10 @@ function saveName(e) {
 </section>
 
 <style>
+  section {
+    height: 120px;
+  }
+
   p, input {
     display: block;
     margin: 20px auto;
