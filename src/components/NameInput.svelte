@@ -19,6 +19,7 @@ function saveName(e) {
       <input
         autocomplete="off"
         placeholder="enter your name here..."
+        maxlength="16"
       />
       <button>save name</button>
     </form>
@@ -46,12 +47,13 @@ function saveName(e) {
 
   p {
     font-size: 2rem;
+    max-width: 90%;
   }
 
   input {
     background: var(--ternary-col);
     box-shadow: var(--shadow);
-    width: 333px;
+    max-width: 333px;
     border-radius: 10px;
     border: none;
     font-size: 1.5rem;

@@ -136,6 +136,7 @@
 		border-radius: 10px;
 		overflow: scroll;
 		padding: 5px 10px;
+		box-shadow: var(--shadow);
 	}
 
 	input {
@@ -201,5 +202,38 @@
 	p {
 		font-size: 2rem;
 		text-align: center;
+	}
+
+	@media (max-height: 400px) {
+		div {
+			flex-direction: row;
+			max-height: 300px;
+		}
+
+		ul {
+			border: 1px solid red;
+			width: 100%;
+			padding: 0 5px;
+		}
+
+		input {
+			margin: 10px;
+			height: 30px;
+			max-width: 200px;
+			font-size: 1rem;
+		}
+
+		input::placeholder {
+			font-size: 1rem;
+		}
+
+		button, a {
+			font-size: 1rem;
+			height: 30px;
+		}
+
+		p {
+			font-size: 1rem;
+		}
 	}
 </style>

@@ -39,6 +39,12 @@
 		text-align: center;
 	}
 
+	@media (max-height: 750px) {
+		section {
+			margin-top: 0;
+		}
+	}
+
 	p {
 		padding: 0 1rem;
 		line-height: 1.2;
