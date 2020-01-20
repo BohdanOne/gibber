@@ -90,9 +90,9 @@
 			{ #each messageList as message }
 				<li transition:fade class="message">
 					{ #if message.user === userName }
-						{ message.message }
+						<span class="my-msg">{ message.message }</span>
 						{ :else }
-							<span>{ message.user } says: </span>{ message.message }
+							<span class="user">{ message.user } says: </span>{ message.message }
 					{ /if }
 				</li>
 			{ /each }
@@ -195,8 +195,12 @@
 	}
 
 	.notification,
-	span {
+	span.user {
 		color: var(--secondary-light-col);
+	}
+
+	span.my-msg {
+		color: var(--ternary-col);
 	}
 
 	p {
