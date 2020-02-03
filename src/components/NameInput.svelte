@@ -56,12 +56,12 @@ function saveName(e) {
     max-width: 333px;
     border-radius: 10px;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   input::placeholder {
     font: inherit;
-    font-size: 1.5rem;
+    font-size: .8rem;
     color: var(--white-col);
   }
 

@@ -21,7 +21,9 @@
 
 <style>
 	h2 {
-		font-size: 2rem;
+		font-size: 3rem;
+		line-height: .8;
+		margin-bottom: .5rem;
 		text-align: center;
 	}
 
