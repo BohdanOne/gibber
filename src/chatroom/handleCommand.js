@@ -1,20 +1,20 @@
 import getChuckJoke from './getChuckJoke';
 
-export default function handleCommand(socket, message, user) {
+export default (socket, message, user) => {
   let msg;
   switch (message.slice(1)) {
     case 'h':
       msg = `👋`;
-      socket.broadcast.emit('message', msg, user);
-      break;
+      return socket.broadcast.emit('message', msg, user);
     case 'y':
       msg = `👍`;
-      socket.broadcast.emit('message', msg, user);
-      break;
+      return socket.broadcast.emit('message', msg, user);
     case 'n':
       msg = `👎`;
-      socket.broadcast.emit('message', msg, user);
-      break;
+      return socket.broadcast.emit('message', msg, user);
+    case 'l':
+      msg = `❤️`;
+      return socket.broadcast.emit('message', msg, user);
     case 'chuck':
       return getChuckJoke(socket, user);
     default:
