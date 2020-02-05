@@ -23,6 +23,7 @@ export default server => {
       if (msg.startsWith('/')) {
         handleCommand(socket, msg, user);
       } else {
+        socket.emit('message', msg, user);
         socket.broadcast.emit('message', msg, user);
       }
     });

@@ -48,6 +48,7 @@
 	});
 
 	socket.on('message', (msg, user) => {
+		console.log(msg, user)
 		userIsWriting = false;
 		messages.update(m => [...messageList, {message: msg, user: user}]);
 		updateView();
@@ -67,7 +68,6 @@
 
   function handleSubmit() {
 		if (messageInput) {
-			messages.update(m => [...messageList, {message: messageInput, user: userName}]);
 			socket.emit('message', messageInput, userName);
 			updateView();
 			messageInput = '';
@@ -87,10 +87,12 @@
 <div>
 	{#if userName}
 		<ul id="chat">
-			{ #each messageList as message }
+			{ #each messageList as message, index }
 				<li transition:fade class="message">
 					{ #if message.user === userName }
 						<span class="my-msg">{ message.message }</span>
+						{ :else if index > 0 && message.user === messageList[index - 1].user }
+							{ message.message }
 						{ :else }
 							<span class="user">{ message.user } says: </span>{ message.message }
 					{ /if }
