@@ -10,11 +10,11 @@
 	<h2>Info</h2>
 	<h3>Special commands</h3>
 		<ul>
-			<li>type <span>/h </span>and get <span>👋</span></li>
-			<li>type <span>/y </span>and get <span>👋</span></li>
-			<li>type <span>/n </span>and get <span>👋</span></li>
-			<li>type <span>/l </span>and get <span>👋</span></li>
-			<li>type <span>/chuck </span>and you will see 😉</li>
+			<li>type <span>/h </span>and get <span role="img" aria-label="Waving Hand">👋</span></li>
+			<li>type <span>/y </span>and get <span role="img" aria-label="Thumbs Up">👍</span></li>
+			<li>type <span>/n </span>and get <span role="img" aria-label="Thumbs Dwon">👎</span></li>
+			<li>type <span>/l </span>and get <span role="img" aria-label="Red Heart">❤️</span></li>
+			<li>type <span>/chuck </span>and you will see.. <span role="img" aria-label="Winking Face"> 😉</span></li>
 		</ul>
 
 	<h3>Please note</h3>
