@@ -5,6 +5,7 @@
 <style>
   a {
     display: block;
+    font-size: var(--fs-s);
     text-align: center;
     color: var(--white-col);
     margin-bottom: 20px;

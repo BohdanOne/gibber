@@ -7,6 +7,12 @@
 	--ternary-col: #A69B03;
 	--white-col: #eaeaea;
 	--shadow: 4px 4px 8px rgba(255, 255, 255, 0.25);
+	--fs-s: .75rem;
+	--fs: 1rem;
+	--fs-m: 1.333rem;
+	--fs-l: 1.777rem;
+	--fs-xl: 2.369rem;
+	--fs-xxl: 3.157rem;
 }
 
 * {
@@ -16,14 +22,14 @@
 }
 
 html {
-	font-size: 16px;
+	font-size: 14px;
 	background: var(--secondary-light-col);
 }
 
 body {
 	font-family: 'Gochi Hand', cursive;
 	color: var(--main-col);
-	max-width: 600px;
+	width: 100%;
 	margin: 0 auto;
 }
 

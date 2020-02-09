@@ -27,6 +27,7 @@
 
 	a {
 		color: var(--main-col);
+		font-size: var(--fs-m);
 		text-decoration: none;
 	}
 
