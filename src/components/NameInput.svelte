@@ -46,22 +46,22 @@ function saveName(e) {
   }
 
   p {
-    font-size: 2rem;
+    font-size: var(--fs-m);
     max-width: 90%;
   }
 
   input {
     background: var(--ternary-col);
     box-shadow: var(--shadow);
+    min-width: 300px;
     max-width: 333px;
     border-radius: 10px;
     border: none;
-    font-size: 1.2rem;
+    font-size: var(--fs-m);
   }
 
   input::placeholder {
     font: inherit;
-    font-size: .8rem;
     color: var(--white-col);
   }
 
@@ -71,7 +71,7 @@ function saveName(e) {
     border: none;
     border-radius: 10px;
     font: inherit;
-    font-size: 1.5rem;
+    font-size: var(--fs-m);
     color: var(--secondary-light-col);
     background:var(--main-col);
     box-shadow: var(--shadow);
