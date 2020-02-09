@@ -37,6 +37,6 @@
 	}
 
 	.selected {
-		border-bottom: 1px solid;
+		border-bottom: 2px solid var(--ternary-col);
 	}
 </style>
