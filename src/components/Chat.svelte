@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import { name, messages } from './stores.js';
 	import UsersOnline from './UsersOnline.svelte';
+	import ProvideName from './ProvideName.svelte';
 
 	import io from 'socket.io-client';
 	const socket = io();
@@ -115,9 +116,7 @@
 		</form>
 		<UsersOnline {usersOnline} />
 	{:else}
-		<p>We don't chat with strangers!</p>
-		<p>Go here <span role="img" aria-label="Down-Right Arrow">↘️</span> and provide your name.</p>
-		<a href='/'>here</a>
+		<ProvideName />
 	{/if}
 </div>
 
@@ -162,9 +161,8 @@
     color: var(--white-col);
 	}
 
-	button, a {
+	button {
     appearance: none;
-    -webkit-appearance: none;
     border: none;
     border-radius: 10px;
     font: inherit;
@@ -178,18 +176,10 @@
     display: block;
   }
 
-	button:hover,
-	a:hover {
+	button:hover{
     cursor: pointer;
     color: var(--ternary-col);
 	}
-
-	a {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
 	li {
 		list-style: none;
@@ -203,11 +193,6 @@
 
 	span.my-msg {
 		color: var(--ternary-col);
-	}
-
-	p {
-		font-size: 2rem;
-		text-align: center;
 	}
 
 	@media (max-height: 400px) {
@@ -233,7 +218,7 @@
 			font-size: 1rem;
 		}
 
-		button, a {
+		button {
 			font-size: 1rem;
 			height: 30px;
 		}
