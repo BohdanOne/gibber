@@ -4,7 +4,6 @@
   import { name /*messages*/ } from "./stores.js";
   import UsersOnline from "./UsersOnline.svelte";
   import NameInput from "../components/NameInput.svelte";
-
   import io from "socket.io-client";
   const socket = io();
 
@@ -17,23 +16,26 @@
 
   let usersOnline = [];
 
-  // let messageList = [];
-  let messageInput = "";
   let notifications = [];
-
-  // messages.subscribe(v => messageList = v);
-
   $: {
     if (notifications.length > 0) {
       setTimeout(() => (notifications = notifications.slice(1)), 3000);
     }
   }
 
+  // let messageList = [];
+  // messages.subscribe(v => messageList = v);
+  let messageInput = "";
+
   // $: {
-  // 	if (userIsWriting) {
-  // 		socket.emit('user typing', userName);
-  // 		setTimeout(()=> userIsWriting = false, 3000);
+  // 	if (user.isWriting) {
+  // 	console.log('writing') }
+  // 	else {
+  // 		console.log('not writing')
   // 	}
+  // socket.emit('user typing', userName);
+  // setTimeout(()=> userIsWriting = false, 3000);
+  // }
   // }
 
   $: {
@@ -44,22 +46,15 @@
 
   socket.on("usersOnline", (users, user) => {
     const msg = `${user.name} has joined conversation 👋`;
-    console.log(users, user.name);
     notifications = [...notifications, msg];
     usersOnline = users;
   });
 
-  // socket.on('new user', (users, user) => {
-  // 	usersOnline = [...users];
-  // 	const msg = `${user} has joined conversation 👋`;
-  // 	notifications = [...notifications, msg];
-  // })
-
-  // socket.on('user left', (users, user) => {
-  // 	usersOnline = [...users];
-  // 	const msg = `${user} has left conversation 🙋🏻‍♀️`;
-  // 	notifications = [...notifications, msg];
-  // });
+  socket.on("user left", (users, user) => {
+    usersOnline = users;
+    const msg = `${user.name} has left conversation 🙋🏻‍♀️`;
+    notifications = [...notifications, msg];
+  });
 
   // socket.on('message', (msg, user) => {
   // 	console.log(msg, user)
@@ -73,12 +68,12 @@
   // 	notifications = [...notifications, msg];
   // });
 
-  // onDestroy(() => disconnectUser());
+  onDestroy(() => disconnectUser());
 
-  // function disconnectUser()	{
-  // 	socket.emit('user disconnected', userName);
-  // 	socket.close();
-  // };
+  function disconnectUser() {
+    socket.emit("user disconnected", user);
+    socket.close();
+  }
 
   // function handleSubmit() {
   // 	if (messageInput) {
@@ -93,9 +88,7 @@
   // 	setTimeout(() => {
   // 		chatWindow.scrollTop = chatWindow.scrollHeight;
   // 	}, 0)
-	// };
-
-
+  // };
 </script>
 
 <style>
@@ -203,7 +196,7 @@
   }
 </style>
 
-<!-- <svelte:window on:unload={disconnectUser}/> -->
+<svelte:window on:unload={disconnectUser} />
 <div>
   {#if user.name}
     <ul id="chat">
@@ -235,7 +228,7 @@
     </form>
     <UsersOnline {usersOnline} />
   {:else}
-    <NameInput {usersOnline}/>
+    <NameInput {usersOnline} />
     <UsersOnline {usersOnline} />
   {/if}
 </div>
