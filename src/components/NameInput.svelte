@@ -3,6 +3,8 @@
   import { name } from "./stores.js";
 
   export let usersOnline;
+  export let socket;
+
   let nameInput = '';
 
   function saveName(e) {
@@ -14,6 +16,7 @@
       }
     }
     name.set(nameInput);
+      socket.emit("new user", nameInput);
   }
 </script>
 

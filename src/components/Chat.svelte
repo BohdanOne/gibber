@@ -1,48 +1,37 @@
 <script>
   import { onDestroy } from "svelte";
   import { fade } from "svelte/transition";
-  import { name /*messages*/ } from "./stores.js";
+  import { name, messages } from "./stores.js";
   import UsersOnline from "./UsersOnline.svelte";
   import NameInput from "../components/NameInput.svelte";
   import io from "socket.io-client";
+
   const socket = io();
 
   let user = {
     name: "",
     isWriting: false
   };
-
   name.subscribe(v => (user.name = v));
+  $: {
+    if (user.isWriting) {
+      socket.emit("user typing", user);
+      setTimeout(() => (user.isWriting = false), 3000);
+    }
+  }
 
   let usersOnline = [];
 
   let notifications = [];
   $: {
     if (notifications.length > 0) {
-      setTimeout(() => (notifications = notifications.slice(1)), 3000);
+      setTimeout(() => (notifications = notifications.slice(1)), 2000);
     }
   }
 
-  // let messageList = [];
-  // messages.subscribe(v => messageList = v);
+  let messageList = [];
+  messages.subscribe(v => (messageList = v));
   let messageInput = "";
-
-  // $: {
-  // 	if (user.isWriting) {
-  // 	console.log('writing') }
-  // 	else {
-  // 		console.log('not writing')
-  // 	}
-  // socket.emit('user typing', userName);
-  // setTimeout(()=> userIsWriting = false, 3000);
-  // }
-  // }
-
-  $: {
-    if (user.name) {
-      socket.emit("new user", user);
-    }
-  }
 
   socket.on("usersOnline", (users, user) => {
     const msg = `${user.name} has joined conversation 👋`;
@@ -56,17 +45,18 @@
     notifications = [...notifications, msg];
   });
 
-  // socket.on('message', (msg, user) => {
-  // 	console.log(msg, user)
-  // 	userIsWriting = false;
-  // 	messages.update(m => [...messageList, {message: msg, user: user}]);
-  // 	updateView();
-  // });
+  socket.on("message", (msg, user) => {
+    messages.update(m => [...messageList, { message: msg, user: user }]);
+    notifications = notifications.filter(
+      notification => !notification.includes(user.name)
+    );
+    updateView();
+  });
 
-  // socket.on('user typing', user => {
-  // 	const msg = `${user} is typing ✍️`
-  // 	notifications = [...notifications, msg];
-  // });
+  socket.on("user typing", user => {
+    const msg = `${user.name} is typing ✍️`;
+    notifications = [...notifications, msg];
+  });
 
   onDestroy(() => disconnectUser());
 
@@ -75,20 +65,27 @@
     socket.close();
   }
 
-  // function handleSubmit() {
-  // 	if (messageInput) {
-  // 		socket.emit('message', messageInput, userName);
-  // 		updateView();
-  // 		messageInput = '';
-  // 	}
-  // };
+  function userIsWriting(e) {
+    if (e.key !== "Enter" && !user.isWriting) {
+      user.isWriting = true;
+    }
+  }
 
-  // function updateView() {
-  // 	const chatWindow = document.getElementById('chat');
-  // 	setTimeout(() => {
-  // 		chatWindow.scrollTop = chatWindow.scrollHeight;
-  // 	}, 0)
-  // };
+  function handleSubmit() {
+    if (messageInput) {
+      socket.emit("message", messageInput, user);
+      messageInput = "";
+      user.isWriting = false;
+      updateView();
+    }
+  }
+
+  function updateView() {
+    const chatWindow = document.getElementById("chat");
+    setTimeout(() => {
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }, 0);
+  }
 </script>
 
 <style>
@@ -200,35 +197,33 @@
 <div>
   {#if user.name}
     <ul id="chat">
-      <!-- { #each messageList as message, index }
-				<li transition:fade class="message">
-					{ #if message.user === userName }
-						<span class="my-msg">{ message.message }</span>
-						{ :else if index > 0 && message.user === messageList[index - 1].user }
-							{ message.message }
-						{ :else }
-							<span class="user">{ message.user } says: </span>{ message.message }
-					{ /if }
-				</li>
-			{ /each } -->
+      {#each messageList as message, index}
+        <li transition:fade class="message">
+          {#if message.user.name === user.name}
+            <span class="my-msg">{message.message}</span>
+          {:else if index > 0 && message.user.name === messageList[index - 1].user.name}
+            {message.message}
+          {:else}
+            <span class="user">{message.user.name} says:</span>
+            {message.message}
+          {/if}
+        </li>
+      {/each}
       {#each notifications as notification}
         <li transition:fade class="notification">{notification}</li>
       {/each}
     </ul>
     <form>
-      <!-- <input
-				autocomplete="off"
-				bind:value={ messageInput }
-				on:keyup={e => {if (e.key !== 'Enter') userIsWriting = true}}
-				placeholder="write here"
-			/>
-			<button
-				on:click|preventDefault={handleSubmit}
-			>Send!</button> -->
+      <input
+        autocomplete="off"
+        bind:value={messageInput}
+        on:keyup={userIsWriting}
+        placeholder="write here" />
+      <button on:click|preventDefault={handleSubmit}>Send!</button>
     </form>
     <UsersOnline {usersOnline} />
   {:else}
-    <NameInput {usersOnline} />
+    <NameInput {usersOnline} {socket} />
     <UsersOnline {usersOnline} />
   {/if}
 </div>
