@@ -9,23 +9,32 @@
   activeUsers.subscribe(v => (usersOnline = v));
 
   let nameInput = "";
+  let info = ""
 
   function saveName(e) {
     for (const user of usersOnline) {
       if (user.name === nameInput) {
-        alert(`${user.name} is already chatting. Please choose other name.`);
-        nameInput = "";
+        nameAlreadyInUse(nameInput)
         return;
       }
     }
     name.set(nameInput);
     socket.emit("new user", nameInput);
   }
+
+  function nameAlreadyInUse(name) {
+    info =`${name} is already in use. Please choose other name.`;
+    nameInput = "";
+  }
 </script>
 
 <style>
   section {
     height: 120px;
+  }
+
+  p {
+    text-align: center;
   }
 
   input {
@@ -44,10 +53,12 @@
 
 <section>
   <form on:submit|preventDefault={saveName} out:fade={{ duration: 300 }}>
+    <p>{info}</p>
     <input
       autocomplete="off"
       placeholder="enter your name here..."
       maxlength="16"
+      required
       bind:value={nameInput} />
     <button>let's chat</button>
   </form>
