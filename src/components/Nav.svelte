@@ -31,11 +31,6 @@
 		text-decoration: none;
 	}
 
-	a:hover {
-		cursor: pointer;
-		color: var(--ternary-col);
-	}
-
 	.selected {
 		border-bottom: 2px solid var(--ternary-col);
 	}

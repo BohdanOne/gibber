@@ -29,47 +29,15 @@
   }
 
   input {
-    display: block;
     margin: 20px auto;
-    height: 40px;
-    font: inherit;
-    color: var(--white-col);
-    text-align: center;
-  }
-
-  input {
-    background: var(--ternary-col);
-    box-shadow: var(--shadow);
-    min-width: 300px;
-    max-width: 333px;
-    border-radius: 10px;
-    border: none;
-    font-size: var(--fs-m);
-  }
-
-  input::placeholder {
-    font: inherit;
-    color: var(--white-col);
   }
 
   button {
-    appearance: none;
-    -webkit-appearance: none;
-    border: none;
-    border-radius: 10px;
-    font: inherit;
-    font-size: var(--fs-m);
     color: var(--secondary-light-col);
-    background: var(--main-col);
-    box-shadow: var(--shadow);
-    width: 160px;
-    height: 40px;
     margin: 0 auto;
-    display: block;
   }
 
   button:hover {
-    cursor: pointer;
     color: var(--ternary-col);
   }
 </style>

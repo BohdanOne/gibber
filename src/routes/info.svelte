@@ -3,18 +3,6 @@
 </script>
 
 <style>
-  h2 {
-    font-size: 3rem;
-    line-height: 0.8;
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
   ul {
     list-style: none;
     padding: 20px 0;

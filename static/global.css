@@ -1,41 +1,105 @@
 @import url('https://fonts.googleapis.com/css?family=Gochi+Hand|Roboto&display=swap');
 
 :root {
-	--main-col: #1E2759;
-	--secondary-col: #4A808C;
-	--secondary-light-col: #729CA6;
-	--ternary-col: #A69B03;
-	--white-col: #eaeaea;
-	--shadow: 4px 4px 8px rgba(255, 255, 255, 0.25);
-	--fs-s: .75rem;
-	--fs: 1rem;
-	--fs-m: 1.333rem;
-	--fs-l: 1.777rem;
-	--fs-xl: 2.369rem;
-	--fs-xxl: 3.157rem;
+  --main-col: #1e2759;
+  --secondary-col: #4a808c;
+  --secondary-light-col: #729ca6;
+  --ternary-col: #a69b03;
+  --white-col: #eaeaea;
+  --shadow: 4px 4px 8px rgba(255, 255, 255, 0.25);
+  --fs-s: 0.75rem;
+  --fs: 1rem;
+  --fs-m: 1.333rem;
+  --fs-l: 1.777rem;
+  --fs-xl: 2.369rem;
+  --fs-xxl: 3.157rem;
 }
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-	font-size: 14px;
-	background: var(--secondary-light-col);
+  font-size: 14px;
+  background: var(--secondary-light-col);
 }
 
 body {
-	font-family: 'Gochi Hand', cursive;
-	color: var(--main-col);
-	width: 100%;
-	margin: 0 auto;
+  font-family: 'Gochi Hand', cursive;
+  color: var(--main-col);
+  width: 100%;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: var(--fs-xxl);
+  line-height: 1;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+h3 {
+  font-size: var(--fs-m);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+a {
+  color: var(--white-col);
+  font-size: var(--fs);
+  margin-top: 1rem;
+}
+
+a:hover {
+  cursor: pointer;
+  color: var(--ternary-col);
+}
+
+button {
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  font: inherit;
+  font-size: var(--fs-m);
+  background: var(--main-col);
+  box-shadow: var(--shadow);
+  width: 160px;
+  height: 40px;
+  display: block;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input {
+  display: block;
+  margin: 10px auto;
+  height: 40px;
+  font: inherit;
+  color: var(--white-col);
+  text-align: center;
+  background: var(--ternary-col);
+  box-shadow: var(--shadow);
+  min-width: 300px;
+  max-width: 333px;
+  border-radius: 10px;
+  border: none;
+  font-size: var(--fs-m);
+}
+
+input::placeholder {
+  font: inherit;
+  font-size: var(--fs-m);
+  color: var(--white-col);
 }
 
 #sapper {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
 }

@@ -12,7 +12,7 @@
     name: "",
     isWriting: false
   };
-  name.subscribe(v => user.name = v);
+  name.subscribe(v => (user.name = v));
   $: {
     if (user.isWriting) {
       socket.emit("user typing", user);
@@ -21,7 +21,7 @@
   }
 
   let usersOnline = [];
-  activeUsers.subscribe(v => usersOnline = v)
+  activeUsers.subscribe(v => (usersOnline = v));
 
   let notifications = [];
   $: {
@@ -31,18 +31,18 @@
   }
 
   let messageList = [];
-  messages.subscribe(v => messageList = v);
+  messages.subscribe(v => (messageList = v));
   let messageInput = "";
 
   onMount(() => {
-    if(user.name) socket.emit("new user", user.name)
+    if (user.name) socket.emit("new user", user.name);
   });
   onDestroy(() => disconnectUser());
 
   socket.on("usersOnline", (users, user) => {
     const msg = `${user.name} has joined conversation 👋`;
     notifications = [...notifications, msg];
-    activeUsers.update(u => [...users])
+    activeUsers.update(u => [...users]);
   });
 
   socket.on("user left", (users, user) => {
@@ -65,7 +65,7 @@
   });
 
   function disconnectUser() {
-    if(user.name) {
+    if (user.name) {
       socket.emit("user disconnected", user);
     }
     socket.close();
@@ -114,44 +114,12 @@
     box-shadow: var(--shadow);
   }
 
-  input {
-    display: block;
-    margin: 10px auto;
-    height: 40px;
-    font: inherit;
-    color: var(--white-col);
-    text-align: center;
-    background: var(--ternary-col);
-    box-shadow: var(--shadow);
-    max-width: 333px;
-    border-radius: 10px;
-    border: none;
-    font-size: 1.5rem;
-  }
-
-  input::placeholder {
-    font: inherit;
-    font-size: 1.5rem;
-    color: var(--white-col);
-  }
-
   button {
-    appearance: none;
-    border: none;
-    border-radius: 10px;
-    font: inherit;
-    font-size: 1.5rem;
     color: var(--secondary-light-col);
-    background: var(--main-col);
-    box-shadow: var(--shadow);
-    width: 160px;
-    height: 40px;
     margin: 0 auto;
-    display: block;
   }
 
   button:hover {
-    cursor: pointer;
     color: var(--ternary-col);
   }
 
@@ -167,35 +135,6 @@
 
   span.my-msg {
     color: var(--ternary-col);
-  }
-
-  @media (max-height: 400px) {
-    div {
-      flex-direction: row;
-      max-height: 300px;
-    }
-
-    ul {
-      border: 1px solid red;
-      width: 100%;
-      padding: 0 5px;
-    }
-
-    input {
-      margin: 10px;
-      height: 30px;
-      max-width: 200px;
-      font-size: 1rem;
-    }
-
-    input::placeholder {
-      font-size: 1rem;
-    }
-
-    button {
-      font-size: 1rem;
-      height: 30px;
-    }
   }
 </style>
 
@@ -230,5 +169,5 @@
   {:else}
     <NameInput {socket} />
   {/if}
-    <UsersOnline {usersOnline} />
+  <UsersOnline {usersOnline} />
 </div>

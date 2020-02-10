@@ -3,21 +3,8 @@
 </script>
 
 <style>
-  h2 {
-    font-size: 3.157rem;
-    line-height: 1;
-    margin-top: 1rem;
-    margin-bottom: 0.75rem;
-    text-align: center;
-  }
-
   span {
     color: var(--white-col);
-  }
-
-  h3 {
-    font-size: var(--fs-m);
-    text-align: center;
   }
 
   section {
@@ -26,43 +13,15 @@
     text-align: center;
   }
 
-  h4 {
-    font-size: var(--fs);
-    margin-bottom: 1rem;
-  }
-
   p {
     padding: 0 1rem;
     font-size: var(--fs);
     line-height: 1.333;
-  }
-
-  a {
-    color: var(--white-col);
-    font-size: var(--fs);
-    margin-top: 1rem;
-  }
-
-  a:hover {
-    cursor: pointer;
-    color: var(--ternary-col);
+    text-align: center;
   }
 
   button {
-    appearance: none;
-    border: none;
-    border-radius: 10px;
-    font: inherit;
-    background: var(--main-col);
-    box-shadow: var(--shadow);
-    width: 160px;
-    height: 40px;
     margin: 2rem auto;
-    display: block;
-  }
-
-  button:hover {
-    cursor: pointer;
   }
 
   button a {
@@ -84,14 +43,14 @@
       <br />
       <span>!gibber</span>
     </h2>
-    <h3>a minimal chat app</h3>
+    <p>a minimal chat app</p>
 
     <button>
       <a href="/chat">start chatting</a>
     </button>
 
     <section>
-      <h4>PLEASE NOTE!</h4>
+      <h3>PLEASE NOTE!</h3>
       <p>
         This app doesn't provide any privacy - anybody can join the chat and see
         all the messages. Your conversations are not stored.
