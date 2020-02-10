@@ -5,8 +5,8 @@
 <style>
   h2 {
     font-size: 3.157rem;
-		line-height: 1;
-		margin-top: 1rem;
+    line-height: 1;
+    margin-top: 1rem;
     margin-bottom: 0.75rem;
     text-align: center;
   }
@@ -21,31 +21,54 @@
   }
 
   section {
-		margin-top: 20%;
-		max-width: 600px;
+    margin-top: 20%;
+    max-width: 600px;
     text-align: center;
   }
 
-	h4 {
-		font-size: var(--fs);
-		margin-bottom: 1rem;
-	}
+  h4 {
+    font-size: var(--fs);
+    margin-bottom: 1rem;
+  }
 
   p {
-		padding: 0 1rem;
-		font-size: var(--fs);
+    padding: 0 1rem;
+    font-size: var(--fs);
     line-height: 1.333;
   }
 
   a {
-		color: var(--main-col);
-		font-size: var(--fs);
-		margin-top: 1rem;
+    color: var(--white-col);
+    font-size: var(--fs);
+    margin-top: 1rem;
   }
 
   a:hover {
     cursor: pointer;
-    color: var(--white-col);
+    color: var(--ternary-col);
+  }
+
+  button {
+    appearance: none;
+    border: none;
+    border-radius: 10px;
+    font: inherit;
+    background: var(--main-col);
+    box-shadow: var(--shadow);
+    width: 160px;
+    height: 40px;
+    margin: 2rem auto;
+    display: block;
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
+
+  button a {
+    color: #fff;
+    font-size: var(--fs-m);
+    text-decoration: none;
   }
 </style>
 
@@ -54,24 +77,32 @@
 </svelte:head>
 
 <TransitionWrapper>
-  <h2>
-    welcome to
-    <br />
-    <span>!gibber</span>
-  </h2>
-  <h3>a minimal chat app</h3>
-  <section>
-    <h4>PLEASE NOTE!</h4>
-    <p>
-      This app doesn't provide any privacy - anybody can join the chat and see
-      all the messages. Your conversations are not stored.
-    </p>
-    <p>
-      ! gibber is my personal project build for fun to learn Svelte, Sapper &
-      Sockets.IO - see the source code here:
-    </p>
-    <a href="https://github.com/BohdanOne/gibber">
-      github.com/BohdanOne/gibber
-    </a>
-  </section>
+  <div>
+
+    <h2>
+      welcome to
+      <br />
+      <span>!gibber</span>
+    </h2>
+    <h3>a minimal chat app</h3>
+
+    <button>
+      <a href="/chat">start chatting</a>
+    </button>
+
+    <section>
+      <h4>PLEASE NOTE!</h4>
+      <p>
+        This app doesn't provide any privacy - anybody can join the chat and see
+        all the messages. Your conversations are not stored.
+      </p>
+      <p>
+        ! gibber is my personal project build for fun to learn Svelte, Sapper &
+        Sockets.IO - see the source code here:
+      </p>
+      <a href="https://github.com/BohdanOne/gibber">
+        github.com/BohdanOne/gibber
+      </a>
+    </section>
+  </div>
 </TransitionWrapper>

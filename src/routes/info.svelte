@@ -1,56 +1,86 @@
 <script>
-	import TransitionWrapper from '../components/TransitionWrapper.svelte'
+  import TransitionWrapper from "../components/TransitionWrapper.svelte";
 </script>
 
+<style>
+  h2 {
+    font-size: 3rem;
+    line-height: 0.8;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  ul {
+    list-style: none;
+    padding: 20px 0;
+  }
+
+  li {
+    text-align: center;
+  }
+
+  span {
+    color: var(--white-col);
+  }
+
+  p {
+    padding: 0 1rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+</style>
+
 <svelte:head>
-	<title>! gibber | info</title>
+  <title>! gibber | info</title>
 </svelte:head>
 
 <TransitionWrapper>
-	<h2>Info</h2>
-	<h3>Special commands</h3>
-		<ul>
-			<li>type <span>/h </span>and get <span role="img" aria-label="Waving Hand">👋</span></li>
-			<li>type <span>/y </span>and get <span role="img" aria-label="Thumbs Up">👍</span></li>
-			<li>type <span>/n </span>and get <span role="img" aria-label="Thumbs Dwon">👎</span></li>
-			<li>type <span>/l </span>and get <span role="img" aria-label="Red Heart">❤️</span></li>
-			<li>type <span>/chuck </span>and you will see.. <span role="img" aria-label="Winking Face"> 😉</span></li>
-		</ul>
+  <div>
+    <h2>Info</h2>
+    <h3>Special commands</h3>
+    <ul>
+      <li>
+        type
+        <span>/h</span>
+        and get
+        <span role="img" aria-label="Waving Hand">👋</span>
+      </li>
+      <li>
+        type
+        <span>/y</span>
+        and get
+        <span role="img" aria-label="Thumbs Up">👍</span>
+      </li>
+      <li>
+        type
+        <span>/n</span>
+        and get
+        <span role="img" aria-label="Thumbs Dwon">👎</span>
+      </li>
+      <li>
+        type
+        <span>/l</span>
+        and get
+        <span role="img" aria-label="Red Heart">❤️</span>
+      </li>
+      <li>
+        type
+        <span>/chuck</span>
+        and you will see..
+        <span role="img" aria-label="Winking Face">😉</span>
+      </li>
+    </ul>
 
-	<h3>Please note</h3>
-	<p>This app doesn't provide any privacy - anybody can join the chat and see all the messages.</p>
-	<p>Your conversations are not stored.</p>
+    <h3>Please note</h3>
+    <p>
+      This app doesn't provide any privacy - anybody can join the chat and see
+      all the messages.
+    </p>
+    <p>Your conversations are not stored.</p>
+  </div>
 </TransitionWrapper>
-
-<style>
-	h2 {
-		font-size: 3rem;
-		line-height: .8;
-		margin-bottom: .5rem;
-		text-align: center;
-	}
-
-	h3 {
-		font-size: 1.5rem;
-		text-align: center;
-	}
-
-	ul {
-		list-style: none;
-		padding: 20px 0;
-	}
-
-	li {
-		text-align: center;
-	}
-
-	span {
-		color: var(--white-col);
-	}
-
-	p {
-		padding: 0 1rem;
-		line-height: 1.2;
-		text-align: center;
-	}
-</style>
