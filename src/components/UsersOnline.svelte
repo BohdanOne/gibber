@@ -10,7 +10,7 @@
   {#if displayUsers}
     <ul transition:fade>
       {#each usersOnline as user}
-        <li>{ user }</li>
+        <li>{ user.name }</li>
       {/each}
     </ul>
   {/if}

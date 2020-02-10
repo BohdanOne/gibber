@@ -1,6 +1,5 @@
 <script>
   import TransitionWrapper from "../components/TransitionWrapper.svelte";
-  import NameInput from "../components/NameInput.svelte";
 </script>
 
 <style>
@@ -22,15 +21,9 @@
   }
 
   section {
-		margin-top: 30%;
+		margin-top: 20%;
 		max-width: 600px;
     text-align: center;
-  }
-
-  @media (max-height: 750px) {
-    section {
-      margin-top: 0;
-    }
   }
 
 	h4 {
@@ -67,7 +60,6 @@
     <span>!gibber</span>
   </h2>
   <h3>a minimal chat app</h3>
-  <NameInput />
   <section>
     <h4>PLEASE NOTE!</h4>
     <p>

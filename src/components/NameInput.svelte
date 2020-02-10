@@ -1,53 +1,34 @@
 <script>
-import { fade } from 'svelte/transition';
-import { name } from './stores.js';
+  import { fade } from "svelte/transition";
+  import { name } from "./stores.js";
 
-let userName;
+  export let usersOnline;
+  let nameInput = '';
 
-function saveName(e) {
-  name.subscribe( v => userName = v);
-  name.set(e.target.elements[0].value);
-};
+  function saveName(e) {
+    for (const user of usersOnline) {
+      if (user.name === nameInput) {
+        alert(`${user.name} is already chatting. Please choose other name.`);
+        nameInput = '';
+        return
+      }
+    }
+    name.set(nameInput);
+  }
 </script>
-
-<section>
-  {#if !userName}
-    <form
-      on:submit|preventDefault={saveName}
-      out:fade={{duration: 300}}
-    >
-      <input
-        autocomplete="off"
-        placeholder="enter your name here..."
-        maxlength="16"
-      />
-      <button>save name</button>
-    </form>
-  {:else}
-    <div in:fade={{delay: 300}}>
-      <p>Hi {userName}!</p>
-      <a href='chat'>let's chat!</a>
-    </div>
-{/if}
-</section>
 
 <style>
   section {
     height: 120px;
   }
 
-  p, input {
+  input {
     display: block;
     margin: 20px auto;
     height: 40px;
     font: inherit;
     color: var(--white-col);
     text-align: center;
-  }
-
-  p {
-    font-size: var(--fs-m);
-    max-width: 90%;
   }
 
   input {
@@ -65,7 +46,7 @@ function saveName(e) {
     color: var(--white-col);
   }
 
-	button, a {
+  button {
     appearance: none;
     -webkit-appearance: none;
     border: none;
@@ -73,7 +54,7 @@ function saveName(e) {
     font: inherit;
     font-size: var(--fs-m);
     color: var(--secondary-light-col);
-    background:var(--main-col);
+    background: var(--main-col);
     box-shadow: var(--shadow);
     width: 160px;
     height: 40px;
@@ -81,15 +62,19 @@ function saveName(e) {
     display: block;
   }
 
-  a {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  button:hover, a:hover {
+  button:hover {
     cursor: pointer;
     color: var(--ternary-col);
   }
 </style>
+
+<section>
+  <form on:submit|preventDefault={saveName} out:fade={{ duration: 300 }}>
+    <input
+      autocomplete="off"
+      placeholder="enter your name here..."
+      maxlength="16"
+      bind:value = {nameInput} />
+    <button>let's chat</button>
+  </form>
+</section>
