@@ -1,22 +1,25 @@
 <script>
   import { fade } from "svelte/transition";
   import { name } from "./stores.js";
+  import { activeUsers } from "./stores.js";
 
-  export let usersOnline;
   export let socket;
 
-  let nameInput = '';
+  export let usersOnline;
+  activeUsers.subscribe(v => (usersOnline = v));
+
+  let nameInput = "";
 
   function saveName(e) {
     for (const user of usersOnline) {
       if (user.name === nameInput) {
         alert(`${user.name} is already chatting. Please choose other name.`);
-        nameInput = '';
-        return
+        nameInput = "";
+        return;
       }
     }
     name.set(nameInput);
-      socket.emit("new user", nameInput);
+    socket.emit("new user", nameInput);
   }
 </script>
 
@@ -77,7 +80,7 @@
       autocomplete="off"
       placeholder="enter your name here..."
       maxlength="16"
-      bind:value = {nameInput} />
+      bind:value={nameInput} />
     <button>let's chat</button>
   </form>
 </section>

@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from "svelte";
   import { fade } from "svelte/transition";
-  import { name, messages } from "./stores.js";
+  import { name, messages, activeUsers } from "./stores.js";
   import UsersOnline from "./UsersOnline.svelte";
   import NameInput from "../components/NameInput.svelte";
   import io from "socket.io-client";
@@ -12,7 +12,7 @@
     name: "",
     isWriting: false
   };
-  name.subscribe(v => (user.name = v));
+  name.subscribe(v => user.name = v);
   $: {
     if (user.isWriting) {
       socket.emit("user typing", user);
@@ -21,6 +21,7 @@
   }
 
   let usersOnline = [];
+  activeUsers.subscribe(v => usersOnline = v)
 
   let notifications = [];
   $: {
@@ -30,13 +31,18 @@
   }
 
   let messageList = [];
-  messages.subscribe(v => (messageList = v));
+  messages.subscribe(v => messageList = v);
   let messageInput = "";
+
+  onMount(() => {
+    if(user.name) socket.emit("new user", user.name)
+  });
+  onDestroy(() => disconnectUser());
 
   socket.on("usersOnline", (users, user) => {
     const msg = `${user.name} has joined conversation 👋`;
     notifications = [...notifications, msg];
-    usersOnline = users;
+    activeUsers.update(u => [...users])
   });
 
   socket.on("user left", (users, user) => {
@@ -58,15 +64,10 @@
     notifications = [...notifications, msg];
   });
 
-  onMount(() => {
-    if(user.name) {
-      socket.emit("new user", user.name)
-    }
-  });
-  onDestroy(() => disconnectUser());
-
   function disconnectUser() {
-    socket.emit("user disconnected", user);
+    if(user.name) {
+      socket.emit("user disconnected", user);
+    }
     socket.close();
   }
 
@@ -227,7 +228,7 @@
       <button on:click|preventDefault={handleSubmit}>Send!</button>
     </form>
   {:else}
-    <NameInput {usersOnline} {socket} />
+    <NameInput {socket} />
   {/if}
     <UsersOnline {usersOnline} />
 </div>
