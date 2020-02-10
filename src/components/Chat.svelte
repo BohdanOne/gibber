@@ -1,9 +1,9 @@
 <script>
   import { onMount, onDestroy } from "svelte";
   import { fade } from "svelte/transition";
-  import { name, messages, activeUsers } from "./stores.js";
-  import UsersOnline from "./UsersOnline.svelte";
-  import NameInput from "../components/NameInput.svelte";
+  import { name, messages, activeUsers } from "./chat/stores.js";
+  import UsersOnline from "./chat/UsersOnline.svelte";
+  import NameInput from "./chat/NameInput.svelte";
   import io from "socket.io-client";
 
   const socket = io();
