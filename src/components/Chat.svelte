@@ -1,5 +1,5 @@
 <script>
-  import { onDestroy } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import { fade } from "svelte/transition";
   import { name, messages } from "./stores.js";
   import UsersOnline from "./UsersOnline.svelte";
@@ -25,7 +25,7 @@
   let notifications = [];
   $: {
     if (notifications.length > 0) {
-      setTimeout(() => (notifications = notifications.slice(1)), 2000);
+      setTimeout(() => (notifications = notifications.slice(1)), 4000);
     }
   }
 
@@ -58,6 +58,11 @@
     notifications = [...notifications, msg];
   });
 
+  onMount(() => {
+    if(user.name) {
+      socket.emit("new user", user.name)
+    }
+  });
   onDestroy(() => disconnectUser());
 
   function disconnectUser() {
@@ -221,9 +226,8 @@
         placeholder="write here" />
       <button on:click|preventDefault={handleSubmit}>Send!</button>
     </form>
-    <UsersOnline {usersOnline} />
   {:else}
     <NameInput {usersOnline} {socket} />
-    <UsersOnline {usersOnline} />
   {/if}
+    <UsersOnline {usersOnline} />
 </div>
