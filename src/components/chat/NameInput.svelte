@@ -1,29 +1,27 @@
 <script>
   import { fade } from "svelte/transition";
   import { name } from "./stores.js";
-  import { activeUsers } from "./stores.js";
 
   export let socket;
 
-  export let usersOnline;
-  activeUsers.subscribe(v => (usersOnline = v));
-
   let nameInput = "";
-  let info = ""
+  let info = "";
+
+  socket.on("valid name", validName => {
+    name.set(validName);
+    socket.emit("new user", validName);
+  });
+
+  socket.on("name not valid", name => {
+    nameAlreadyInUse(name);
+  });
 
   function saveName(e) {
-    for (const user of usersOnline) {
-      if (user.name === nameInput) {
-        nameAlreadyInUse(nameInput)
-        return;
-      }
-    }
-    name.set(nameInput);
-    socket.emit("new user", nameInput);
+    socket.emit("save user", nameInput);
   }
 
   function nameAlreadyInUse(name) {
-    info =`${name} is already in use. Please choose other name.`;
+    info = `${name} is already in use. Please choose other name.`;
     nameInput = "";
   }
 </script>

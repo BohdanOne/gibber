@@ -5,6 +5,14 @@ export default server => {
   let usersOnline = [];
 
   io(server).on('connection', socket => {
+    socket.on('save user', name => {
+      if (valid(name)) {
+        socket.emit('valid name', name);
+      } else {
+        socket.emit('name not valid', name);
+      }
+    });
+
     socket.on('new user', name => {
       const newUser = { name: name, isWriting: false };
       usersOnline = [...usersOnline, newUser];
@@ -31,4 +39,13 @@ export default server => {
       socket.broadcast.emit('user typing', user)
     );
   });
+
+  function valid(name) {
+    for (const user of usersOnline) {
+      if (user.name === name) {
+        return false;
+      }
+    }
+    return true;
+  }
 };

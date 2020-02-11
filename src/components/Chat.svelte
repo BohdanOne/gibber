@@ -8,10 +8,7 @@
 
   const socket = io();
 
-  let user = {
-    name: "",
-    isWriting: false
-  };
+  let user = { isWriting: false }
   name.subscribe(v => (user.name = v));
   $: {
     if (user.isWriting) {
@@ -166,8 +163,8 @@
         placeholder="write here" />
       <button on:click|preventDefault={handleSubmit}>Send!</button>
     </form>
+  <UsersOnline {usersOnline} />
   {:else}
     <NameInput {socket} />
   {/if}
-  <UsersOnline {usersOnline} />
 </div>
