@@ -10,8 +10,11 @@
 
 <style>
   header {
+    display: block;
     height: 50px;
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
     padding: 0 2rem;
     display: flex;
     justify-content: space-between;

@@ -28,7 +28,7 @@
 
 <style>
   section {
-    height: 120px;
+    max-width: 333px;
   }
 
   p {

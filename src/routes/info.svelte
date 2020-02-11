@@ -3,6 +3,13 @@
 </script>
 
 <style>
+  div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
   ul {
     list-style: none;
     padding: 20px 0;
@@ -48,7 +55,7 @@
         type
         <span>/n</span>
         and get
-        <span role="img" aria-label="Thumbs Dwon">👎</span>
+        <span role="img" aria-label="Thumbs Down">👎</span>
       </li>
       <li>
         type

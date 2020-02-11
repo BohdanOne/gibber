@@ -8,7 +8,7 @@
 
   const socket = io();
 
-  let user = { isWriting: false }
+  let user = { isWriting: false };
   name.subscribe(v => (user.name = v));
   $: {
     if (user.isWriting) {
@@ -95,20 +95,32 @@
   div {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     height: 100%;
-    max-height: 500px;
+    width: 100%;
+  }
+
+  .chat {
+    max-width: 333px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
   }
 
   ul {
     background: var(--white-col);
-    max-width: 333px;
     min-height: 300px;
-    max-height: 60%;
+    height: 60%;
     border-radius: 10px;
     overflow: scroll;
     padding: 5px 10px;
+    width: 100%;
     box-shadow: var(--shadow);
+  }
+
+  input {
+    width: 100%;
   }
 
   button {
@@ -137,34 +149,38 @@
 
 <svelte:window on:unload={disconnectUser} />
 <div>
-  {#if user.name}
-    <ul id="chat">
-      {#each messageList as message, index}
-        <li transition:fade class="message">
-          {#if message.user.name === user.name}
-            <span class="my-msg">{message.message}</span>
-          {:else if index > 0 && message.user.name === messageList[index - 1].user.name}
-            {message.message}
-          {:else}
-            <span class="user">{message.user.name} says:</span>
-            {message.message}
-          {/if}
-        </li>
-      {/each}
-      {#each notifications as notification}
-        <li transition:fade class="notification">{notification}</li>
-      {/each}
-    </ul>
-    <form>
-      <input
-        autocomplete="off"
-        bind:value={messageInput}
-        on:keyup={userIsWriting}
-        placeholder="write here" />
-      <button on:click|preventDefault={handleSubmit}>Send!</button>
-    </form>
-  <UsersOnline {usersOnline} />
-  {:else}
-    <NameInput {socket} />
+  <div class="chat">
+    {#if user.name}
+      <ul id="chat">
+        {#each messageList as message, index}
+          <li transition:fade class="message">
+            {#if message.user.name === user.name}
+              <span class="my-msg">{message.message}</span>
+            {:else if index > 0 && message.user.name === messageList[index - 1].user.name}
+              {message.message}
+            {:else}
+              <span class="user">{message.user.name} says:</span>
+              {message.message}
+            {/if}
+          </li>
+        {/each}
+        {#each notifications as notification}
+          <li transition:fade class="notification">{notification}</li>
+        {/each}
+      </ul>
+      <form>
+        <input
+          autocomplete="off"
+          bind:value={messageInput}
+          on:keyup={userIsWriting}
+          placeholder="write here" />
+        <button on:click|preventDefault={handleSubmit}>Send!</button>
+      </form>
+    {:else}
+      <NameInput {socket} />
+    {/if}
+  </div>
+  {#if usersOnline.length > 0}
+    <UsersOnline {usersOnline} />
   {/if}
 </div>
